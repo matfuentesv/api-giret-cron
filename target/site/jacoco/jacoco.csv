@@ -1,0 +1,6 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+api-giret-cron,com.giret.apigiretcron.service,LoanSchedulerService,0,61,0,4,0,17,0,6,0,4
+api-giret-cron,com.giret.apigiretcron.model,Loan.LoanBuilder,29,34,0,0,0,1,4,5,4,5
+api-giret-cron,com.giret.apigiretcron.model,Loan,88,209,33,21,1,8,33,12,6,12
+api-giret-cron,com.giret.apigiretcron.model,Resource,395,0,78,0,10,0,62,0,23,0
+api-giret-cron,com.giret.apigiretcron,ApiGiretCronApplication,8,0,0,0,3,0,2,0,2,0

@@ -1,0 +1,6 @@
+com\giret\apigiretcron\model\Resource.class
+com\giret\apigiretcron\service\LoanSchedulerService.class
+com\giret\apigiretcron\model\Loan.class
+com\giret\apigiretcron\client\LoanClient.class
+com\giret\apigiretcron\model\Loan$LoanBuilder.class
+com\giret\apigiretcron\ApiGiretCronApplication.class

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoanSchedulerService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api-giret-cron</a> &gt; <a href="index.source.html" class="el_package">com.giret.apigiretcron.service</a> &gt; <span class="el_source">LoanSchedulerService.java</span></div><h1>LoanSchedulerService.java</h1><pre class="source lang-java linenums">package com.giret.apigiretcron.service;
+
+
+import com.giret.apigiretcron.client.LoanClient;
+import com.giret.apigiretcron.model.Loan;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import java.time.LocalDate;
+import java.util.List;
+
+<span class="fc" id="L12">@Slf4j</span>
+@Service
+public class LoanSchedulerService {
+
+
+    private final LoanClient loanClient;
+
+<span class="fc" id="L19">    public LoanSchedulerService(LoanClient loanClient) {</span>
+<span class="fc" id="L20">        this.loanClient = loanClient;</span>
+<span class="fc" id="L21">    }</span>
+
+    @Scheduled(cron = &quot;*/30 * * * * *&quot;)
+    public void updateOverdueLoans() {
+<span class="fc" id="L25">        LocalDate today = LocalDate.now();</span>
+<span class="fc" id="L26">        log.info(&quot;Ejecutando tarea programada: Verificando préstamos vencidos. Hoy es {}&quot;, today);</span>
+
+
+<span class="fc" id="L29">        final List&lt;Loan&gt; activeLoans = loanClient.findAllLoan()</span>
+<span class="fc" id="L30">                                       .stream()</span>
+<span class="fc" id="L31">                                       .filter(x-&gt;x.getEstado().equalsIgnoreCase(&quot;activo&quot;))</span>
+<span class="fc" id="L32">                                        .toList();</span>
+
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        for (Loan loan : activeLoans) {</span>
+
+<span class="fc" id="L36">            LocalDate dueDate = LocalDate.parse(loan.getFechaDevolucion());</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            if (dueDate.isBefore(today)) {</span>
+<span class="fc" id="L38">                loanClient.updateLoanByState(&quot;atrasado&quot;,loan.getIdPrestamo());</span>
+<span class="fc" id="L39">                log.info(&quot;Préstamo ID {} actualizado a Atrasado&quot;, loan.getIdPrestamo());</span>
+            }
+<span class="fc" id="L41">        }</span>
+<span class="fc" id="L42">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
